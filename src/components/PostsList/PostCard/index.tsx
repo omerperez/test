@@ -28,7 +28,7 @@ export const PostCard = memo(
     const post = data[postIndex];
 
     const [checked, setChecked] = useState<boolean>(
-      (post && selectedPosts.has(post.id)) || selectAll,
+      (post && selectedPosts.has(post.id)) || selectAll
     );
 
     const client = useQueryClient();
@@ -63,7 +63,7 @@ export const PostCard = memo(
               <Fragment>
                 <PostTitle>{capitalizeFirstLetter(post.title)}</PostTitle>
                 <Typography variant="subtitle1">
-                  {`${post.commentsCount} Comments`}
+                  {`${post.commentsCount} comments`}
                 </Typography>
                 <ViewMore post={post} />
               </Fragment>
@@ -78,5 +78,5 @@ export const PostCard = memo(
         </PostCardContainer>
       </PostCardWrapper>
     );
-  },
+  }
 );

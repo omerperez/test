@@ -10,7 +10,7 @@ import { useVirtualGrid } from "@/hooks";
 import { postsApi } from "@/services/api";
 import { usePostsStore } from "@/stores";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 interface PostQueryParams {
   pageParam: number;
@@ -27,7 +27,7 @@ export const Posts = () => {
     });
 
     const promises = posts.map(({ id: postId }) =>
-      postsApi.getCommentsByPostId({ postId }),
+      postsApi.getCommentsByPostId({ postId })
     );
     const comments = await Promise.all(promises);
 
@@ -57,6 +57,10 @@ export const Posts = () => {
       },
     });
 
+  const loadMotePosts = useCallback(() => {
+    fetchNextPage();
+  }, [fetchNextPage]);
+
   useEffect(() => {
     refetch();
   }, [lastUpdateDate]);
@@ -77,7 +81,7 @@ export const Posts = () => {
 
   return (
     <PostsList
-      loadMorePosts={() => fetchNextPage()}
+      loadMorePosts={loadMotePosts}
       total={pages[pages.length - 1].total}
       posts={pages.map(({ posts }) => posts).flat()}
     />
